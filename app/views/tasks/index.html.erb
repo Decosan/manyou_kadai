@@ -1,0 +1,16 @@
+<h1>Tasks index</h1>
+<%= link_to 'Create New Task',new_task_path, class:'btn btn-primary btn-block' %>
+<ul class="media-list">
+  <% @tasks.each do |task| %>
+    <li class="media">
+      <h4 class="media-left" style="color: blue;">
+        Task:
+      </h4>
+      <div class="media-body">
+        <h4 class="media-heading"><%= task.title %></h4>
+        <%= task.content %>
+        <%= link_to 'Detail',task_path(task.id),class:'btn btn-info btn-xs' %>
+      </div>
+    </li>
+  <% end %>
+</ul>
