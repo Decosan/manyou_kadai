@@ -30,4 +30,12 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  view:
+    index: "Tasks Index"
+    new: "Create New Task"
+    edit: "Edit Task"
+    show: "Task Info."
+    task: "Task"
+    title: "Title"
+    content: "Content"
+    create_task: "Create New Task"
