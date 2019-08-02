@@ -1,4 +1,4 @@
-<h1>Task Info</h1>
+<h1><%= t("view.show") %></h1>
 <%= link_to 'Edit',edit_task_path(@task.id),class:'btn btn-warning btn-lg' %>
 <%= link_to 'Delete',task_path(@task.id),method: :delete,class:'btn btn-danger btn-lg' %>
 <div class="jumbotron">

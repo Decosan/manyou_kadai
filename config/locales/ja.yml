@@ -1,0 +1,10 @@
+ja:
+  view:
+    index: "タスク一覧"
+    new: "新規タスク作成"
+    edit: "タスク編集"
+    show: "タスク詳細"
+    task: "タスク"
+    title: "タスク名"
+    content: "タスク内容"
+    create_task: "新規タスク作成"
