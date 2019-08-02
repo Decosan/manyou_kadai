@@ -19,23 +19,25 @@ RSpec.feature "タスク管理機能", type: :feature do
   end
 
   scenario "タスク作成のテスト" do
+    visit new_task_path
     
-    task = Task.new(
-      title: 'today',
-      content: 'so what..'
-    )
-    visit tasks_path
+    fill_in "Title", with: "Today.."
+    fill_in "Content", with: "So what.."
+
+    click_on 'Create'
+    
     # save_and_open_page
 
-    expect(task.save).to be_truthy
+    expect(page).to have_content 'So what..'
   end
 
+  
   scenario "タスク詳細のテスト" do
     Task.create!(title: 'test_task_03', content: 'testtesttest2')
 
     visit tasks_path
-    click_on 'Detail'
     # save_and_open_page
+    click_on 'Detail'
 
     expect(page).to have_content 'testtesttest2'
   end
