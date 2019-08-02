@@ -11,3 +11,13 @@ ja:
     create_task: "新規タスク作成"
     detail: "詳細へ"
     back: "一覧へ戻る"
+  helpers:
+    submit:
+      submit: "登録"
+  activerecord:
+    models:
+      task: "タスク"    
+    attributes:
+        task:
+          title: "タスク名"
+          content: "タスク内容"   
