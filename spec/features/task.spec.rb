@@ -12,6 +12,8 @@ RSpec.feature "タスク管理機能", type: :feature do
     FactoryBot.create(:task)
     FactoryBot.create(:second_task)
     FactoryBot.create(:third_task)
+    FactoryBot.create(:fourth_task)
+    FactoryBot.create(:fifth_task)
   end
   scenario "タスク一覧のテスト" do
     
@@ -41,17 +43,22 @@ RSpec.feature "タスク管理機能", type: :feature do
     
     visit tasks_path
     # save_and_open_page
-    all('li')[1].click_on '詳細へ'
+    all('li')[0].click_on '詳細へ'
 
-    expect(page).to have_content 'Factoryで作ったデフォルトのコンテント2'
+    expect(page).to have_content 'Factoryで作ったデフォルトのコンテント5'
   end
 
   scenario "タスクが作成日時の降順に並んでいるかのテスト" do
     # ここにテスト内容を記載する
     visit tasks_path
     save_and_open_page
-    all('li')[0].click_on '詳細へ'
-
-    expect(page).to have_content 'Factoryで作ったデフォルトのコンテント3'
+    
+    task_0 = all('li')[0]
+    task_2 = all('li')[2]
+    task_4 = all('li')[4]
+    expect(task_0).to have_content "Factoryで作ったデフォルトのコンテント5"
+    expect(task_2).to have_content "Factoryで作ったデフォルトのコンテント3"
+    expect(task_4).to have_content "Factoryで作ったデフォルトのコンテント1"
+    
   end
 end
