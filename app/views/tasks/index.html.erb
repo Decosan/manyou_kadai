@@ -1,13 +1,13 @@
 <h1><%= t("view.index") %></h1>
 <%= link_to t("view.create_task") ,new_task_path, class:'btn btn-primary btn-block' %>
-<ul class="media-list">
+<ul class="media-list alltasks">
   <% @tasks.each do |task| %>
     <li class="media">
       <h4 class="badge">
       <%= t("view.task") %>
       </h4>
       <div class="media-body">
-        <h4 class="media-heading"><%= task.title %></h4>
+        <h4 class="media-heading　task-title"><%= task.title %></h4>
         <%= task.content %>
         <%= link_to t("view.detail"),task_path(task.id),class:'btn btn-info btn-xs' %>
       </div>

@@ -3,18 +3,24 @@ require 'rails_helper'
 
 # このRSpec.featureの右側に、「タスク管理機能」のように、テスト項目の名称を書きます（do ~ endでグループ化されています）
 RSpec.feature "タスク管理機能", type: :feature do
-  
-  scenario "タスク一覧のテスト" do
+  background do
     # あらかじめタスク一覧のテストで使用するためのタスクを二つ作成する
-    Task.create!(title: 'test_task_01', content: 'testtesttest')
-    Task.create!(title: 'test_task_02', content: 'samplesample')
-    # tasks_pathにvisitする（タスク一覧ページに遷移する）
+
+    # backgroundの中に記載された記述は、そのカテゴリ内（feature "タスク管理機能", type: :feature do から endまでの内部）
+    # に存在する全ての処理内（scenario内）で実行される
+    # （「タスク一覧のテスト」でも「タスクが作成日時の降順に並んでいるかのテスト」でも、background内のコードが実行される）
+    FactoryBot.create(:task)
+    FactoryBot.create(:second_task)
+    FactoryBot.create(:third_task)
+  end
+  scenario "タスク一覧のテスト" do
+    
     visit tasks_path
 
     # visitした（到着した）expect(page)に（タスク一覧ページに）「testtesttest」「samplesample」という文字列が
     # have_contentされているか？（含まれているか？）ということをexpectする（確認・期待する）テストを書いている
-    expect(page).to have_content 'testtesttest'
-    expect(page).to have_content 'samplesample'
+    expect(page).to have_content 'Factoryで作ったデフォルトのコンテント1'
+    expect(page).to have_content 'Factoryで作ったデフォルトのコンテント2'
   end
 
   scenario "タスク作成のテスト" do
@@ -32,16 +38,24 @@ RSpec.feature "タスク管理機能", type: :feature do
 
   
   scenario "タスク詳細のテスト" do
-    Task.create!(title: 'test_task_01', content: 'testtesttest2')
-
+    
     visit tasks_path
     # save_and_open_page
-    click_on '詳細へ'
+    all('li')[0].click_on '詳細へ'
 
-    expect(page).to have_content 'testtesttest2'
+    expect(page).to have_content 'Factoryで作ったデフォルトのコンテント2'
   end
 
-  # scenario "タスクが作成日時の降順に並んでいるかのテスト" do
-  #   # ここにテスト内容を記載する
-  # end
+  scenario "タスクが作成日時の降順に並んでいるかのテスト" do
+    # ここにテスト内容を記載する
+    visit tasks_path
+    save_and_open_page
+    
+    task_0 = all('li')[0]
+    task_1 = all('li')[1]
+    task_2 = all('li')[2]
+    expect(task_0).to have_content "Factoryで作ったデフォルトのコンテント2"
+    expect(task_1).to have_content "Factoryで作ったデフォルトのコンテント3"
+    expect(task_2).to have_content "Factoryで作ったデフォルトのコンテント1"
+  end
 end
