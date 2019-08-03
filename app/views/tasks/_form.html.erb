@@ -1,15 +1,15 @@
 <%= form_with(model: task,local: true)do |f| %>
 
   <div class="form">
-    <%= f.label :title, t("view.title") %>
+    <%= f.label :title %>
     <%= f.text_field :title,class:'form-control' %>
   </div>
 
   <div class="form">
-    <%= f.label :content, t("view.content") %>
+    <%= f.label :content %>
     <%= f.text_field :content,class:'form-control' %>
   </div>
 
-  <%= f.submit t("view.new"),class:'btn btn-primary btn-block' %>
+  <%= f.submit class:'btn btn-primary btn-block' %>
 
 <% end %>

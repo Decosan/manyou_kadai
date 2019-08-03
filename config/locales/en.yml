@@ -42,3 +42,13 @@ en:
     create_task: "Create New Task"
     detail: "Detail"
     back: "Back"
+  helpers:
+    submit:
+      submit: "Submit"
+  activerecord:
+    models:
+      task: "Task"    
+    attributes:
+        task:
+          title: "Title"
+          content: "Content"     
