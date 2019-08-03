@@ -1,4 +1,8 @@
-##model Schema 予想
+# 万葉課題
+
+root は　tasks#index　に設定してあります。
+
+## model Schema （予想）
 
 | Model    | FK-1     | FK-2     | column1  | column2  | column3  |
 | -------- | -------- | -------- | -------- | -------- | -------- |
