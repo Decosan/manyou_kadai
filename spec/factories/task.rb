@@ -6,7 +6,7 @@ FactoryBot.define do
   factory :task do
     title { 'Factoryで作ったデフォルトのタイトル1' }
     content { 'Factoryで作ったデフォルトのコンテント1' }
-    created_at {1}
+    created_at {Date.today-5}
   end
 
   # 作成するテストデータの名前を「second_task」とします
@@ -14,24 +14,12 @@ FactoryBot.define do
   factory :second_task, class: Task do
     title { 'Factoryで作ったデフォルトのタイトル2' }
     content { 'Factoryで作ったデフォルトのコンテント2' }
-    created_at {2}
+    created_at {Date.today-1}
   end
 
   factory :third_task, class: Task do
     title { 'Factoryで作ったデフォルトのタイトル3' }
     content { 'Factoryで作ったデフォルトのコンテント3' }
-    created_at {3}
-  end
-
-  factory :fourth_task, class: Task do
-    title { 'Factoryで作ったデフォルトのタイトル4' }
-    content { 'Factoryで作ったデフォルトのコンテント4' }
-    created_at {4}
-  end
-
-  factory :fifth_task, class: Task do
-    title { 'Factoryで作ったデフォルトのタイトル5' }
-    content { 'Factoryで作ったデフォルトのコンテント5' }
-    created_at {5}
+    created_at {Date.today-3}
   end
 end
