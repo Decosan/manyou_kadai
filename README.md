@@ -2,13 +2,13 @@
 
 root は　tasks#index　に設定してあります。
 ## Deploy手順
-1.heroku login
-1.heroku create アプリ名
-1.git add .
-1.git commit -m 'xxxxx'
-1.git push heroku master
-1.heroku run rails db:migrate
-1.heroku open
+1. heroku login
+1. heroku create アプリ名
+1. git add .
+1. git commit -m 'xxxxx'
+1. git push heroku master
+1. heroku run rails db:migrate
+1. heroku open
 >注意点
 >precompiling assets failed対策
 >$ rails assets:precompile RAILS_ENV=production
