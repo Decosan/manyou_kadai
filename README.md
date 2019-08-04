@@ -9,10 +9,10 @@ root は　tasks#index　に設定してあります。
 1. git push heroku master
 1. heroku run rails db:migrate
 1. heroku open
->注意点
->precompiling assets failed対策
->$ rails assets:precompile RAILS_ENV=production
->gitignore ファイルの編集 /public/assets　を消す。
+> 注意点
+> precompiling assets failed対策
+> $ rails assets:precompile RAILS_ENV=production
+> gitignore ファイルの編集 /public/assets　を消す。
 
 ## model Schema （予想）
 
