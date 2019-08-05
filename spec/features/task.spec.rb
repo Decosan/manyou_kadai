@@ -67,7 +67,7 @@ RSpec.feature "タスク管理機能", type: :feature do
   scenario "タスクが作成日時の降順に並んでいるかのテスト" do
     # ここにテスト内容を記載する
     visit tasks_path
-    save_and_open_page
+    # save_and_open_page
     
     task_0 = all('li')[0]
     task_1 = all('li')[1]
@@ -75,5 +75,19 @@ RSpec.feature "タスク管理機能", type: :feature do
     expect(task_0).to have_content "Factoryで作ったデフォルトのコンテント2"
     expect(task_1).to have_content "Factoryで作ったデフォルトのコンテント3"
     expect(task_2).to have_content "Factoryで作ったデフォルトのコンテント1"
+  end
+
+  scenario "タスクの終了期限が降順でソートされているか" do
+    # ここにテスト内容を記載する
+    visit tasks_path
+    click_on '終了期限ソート'
+    save_and_open_page
+    
+    task_0 = all('li')[0]
+    task_1 = all('li')[1]
+    task_2 = all('li')[2]
+    expect(task_0).to have_content "Factoryで作ったデフォルトのコンテント1"
+    expect(task_1).to have_content "Factoryで作ったデフォルトのコンテント3"
+    expect(task_2).to have_content "Factoryで作ったデフォルトのコンテント2"
   end
 end

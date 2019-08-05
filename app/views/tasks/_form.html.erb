@@ -10,6 +10,11 @@
     <%= f.text_field :content,class:'form-control' %>
   </div>
 
+  <div class="form">
+    <%= f.label :sort_expired,"Date" %>
+    <%= f.date_field :sort_expired,class:'form-control' %>
+  </div>
+
   <%= f.submit class:'btn btn-primary btn-block' %>
 
 <% end %>

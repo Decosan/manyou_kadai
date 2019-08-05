@@ -4,5 +4,12 @@
 <div class="jumbotron">
 	<h1><%= @task.title %></h1>
 	<p><%= @task.content %></p>
+	<div>
+		<% if @task.sort_expired? %>
+			<p style="color: blue;">Due until: <%= @task.sort_expired %></p>
+		<% else %>
+			<p style="color: red;">No Due</p>  
+		<% end %>
+	</div>
 	<p><a class="btn btn-primary btn-lg" href="/tasks" role="button"><%= t("view.back") %></a></p>
 </div>
