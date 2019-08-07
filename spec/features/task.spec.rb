@@ -81,7 +81,7 @@ RSpec.feature "タスク管理機能", type: :feature do
     # ここにテスト内容を記載する
     visit tasks_path
     click_on '終了期限ソート'
-    save_and_open_page
+    # save_and_open_page
     
     task_0 = all('li')[0]
     task_1 = all('li')[1]
@@ -89,5 +89,33 @@ RSpec.feature "タスク管理機能", type: :feature do
     expect(task_0).to have_content "Factoryで作ったデフォルトのコンテント1"
     expect(task_1).to have_content "Factoryで作ったデフォルトのコンテント3"
     expect(task_2).to have_content "Factoryで作ったデフォルトのコンテント2"
+  end
+
+
+  scenario "Title検索機能が機能しているか" do
+    visit tasks_path
+    fill_in "task_title", with: "1"
+    click_on 'Search'
+
+    expect(page).to have_content 'Factoryで作ったデフォルトのコンテント1'
+  end
+
+  scenario "Status検索機能が機能しているか" do
+    visit tasks_path
+    select 'Pending', from: 'task_status'
+    click_on 'Search'
+
+    expect(page).to have_content 'Factoryで作ったデフォルトのコンテント1'
+    expect(page).to have_content 'Factoryで作ったデフォルトのコンテント3'
+  end
+
+  scenario "TitleとStatusの同時検索機能が機能しているか" do
+    visit tasks_path
+    fill_in "task_title", with: "3"
+    select 'Pending', from: 'task_status'
+    click_on 'Search'
+    save_and_open_page
+
+    expect(page).to have_content 'Factoryで作ったデフォルトのコンテント3'
   end
 end
