@@ -24,21 +24,28 @@
         <h4 class="media-heading　task-title">Title: <%= task.title %></h4>
         Content: <%= task.content %>
       </div>  
-      <div>
-        <% if task.sort_expired? %>
-          <p style="color: blue;">Due until: <%= task.sort_expired %></p>
-        <% else %>
-          <p style="color: red;">No Due</p>  
-        <% end %>
-      </div>
-      <div>
-        <% if task.status? %>
-          <p style="color: blue;">Status: <%= task.status %></p>
-        <% else %>
-          <p style="color: red;">No Status</p>  
-        <% end %>
-      </div>
       <%= link_to t("view.detail"),task_path(task.id),class:'btn btn-info btn-xs' %>
+      <div style="display: inline-block;" >
+        <% if task.sort_expired? %>
+          <p style="color: blue;">Due until: <%= task.sort_expired %> /</p>
+        <% else %>
+          <p style="color: red;">No Due /</p>  
+        <% end %>
+      </div>
+      <div style="display: inline-block;">
+        <% if task.status? %>
+          <p style="color: blue;">Status: <%= task.status %> /</p>
+        <% else %>
+          <p style="color: red;">Undefined /</p>  
+        <% end %>
+      </div>
+      <div style="display: inline-block;">
+        <% if task.priority? %>
+          <p style="color: blue;">Priority: <%= task.priority %></p>
+        <% else %>
+          <p style="color: red;">Undefined</p>  
+        <% end %>
+      </div>
     </li>
   <% end %>
 </ul>

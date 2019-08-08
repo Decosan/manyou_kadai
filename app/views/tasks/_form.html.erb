@@ -20,6 +20,11 @@
     <%= f.select :status, ['Untouched','Pending','Finished'],{include_blank: 'Select Box'} %>
   </div>
 
+  <div>
+    <%= f.label :priority, "Priority" %>
+    <%= f.select :priority, ['High','Mid','Low'],{include_blank: 'Select Box'} %>
+  </div>
+
   <%= f.submit class:'btn btn-primary btn-block' %>
 
 <% end %>

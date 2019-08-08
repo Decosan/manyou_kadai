@@ -3,13 +3,12 @@ class TasksController < ApplicationController
 
   def index
     if params[:task] && params[:task][:search]
-      # binding.pry
       if params[:task][:title].present? && params[:task][:status].present?
-        @tasks = Task.where('title LIKE ?', "%#{params[:task][:title]}%").where('status LIKE ?', "%#{params[:task][:status]}%")
+        @tasks = Task.title_search(params[:task][:title]).status_search(params[:task][:status])
       elsif params[:task][:title].present?
-        @tasks = Task.where('title LIKE ?', "%#{params[:task][:title]}%")
+        @tasks = Task.title_search(params[:task][:title])
       elsif params[:task][:status].present?
-        @tasks = Task.where('status LIKE ?', "%#{params[:task][:status]}%")
+        @tasks = Task.status_search(params[:task][:status])
       end
     elsif params[:sort_expired]
       @tasks = Task.where.not(sort_expired: nil).order(sort_expired: :DESC)
@@ -62,6 +61,6 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title,:content,:sort_expired,:status)
+    params.require(:task).permit(:title,:content,:sort_expired,:status,:priority)
   end
 end
