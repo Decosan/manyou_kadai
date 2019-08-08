@@ -11,7 +11,9 @@ class TasksController < ApplicationController
         @tasks = Task.status_search(params[:task][:status])
       end
     elsif params[:sort_expired]
-      @tasks = Task.where.not(sort_expired: nil).order(sort_expired: :DESC)
+      @tasks = Task.nil_limit.limit_sort
+    elsif params[:sort_priority]
+      @tasks = Task.order('priority DESC')
     else
       @tasks = Task.all.order('created_at DESC')
     end

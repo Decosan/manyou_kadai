@@ -11,5 +11,15 @@
 			<p style="color: red;">No Due</p>  
 		<% end %>
 	</div>
+	<div>
+		<% if @task.status? %>
+			<p style="color: blue;">Status: <%= @task.status %></p>
+		<% else %>
+			<p style="color: red;">Undefined</p>  
+		<% end %>
+	</div>
+	<div>
+	<p style="color: blue;">Priority: <%= @task.priority %></p>
+	</div>
 	<p><a class="btn btn-primary btn-lg" href="/tasks" role="button"><%= t("view.back") %></a></p>
 </div>
