@@ -1,9 +1,16 @@
 class TasksController < ApplicationController
   before_action :set_params, only:[:show,:edit,:update,:destroy]
 
-
   def index
-    if params[:sort_expired]
+    if params[:task] && params[:task][:search]
+      if params[:task][:title].present? && params[:task][:status].present?
+        @tasks = Task.title_search(params[:task][:title]).status_search(params[:task][:status])
+      elsif params[:task][:title].present?
+        @tasks = Task.title_search(params[:task][:title])
+      elsif params[:task][:status].present?
+        @tasks = Task.status_search(params[:task][:status])
+      end
+    elsif params[:sort_expired]
       @tasks = Task.where.not(sort_expired: nil).order(sort_expired: :DESC)
     else
       @tasks = Task.all.order('created_at DESC')
@@ -54,6 +61,6 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title,:content,:sort_expired)
+    params.require(:task).permit(:title,:content,:sort_expired,:status,:priority)
   end
 end
