@@ -1,6 +1,7 @@
 class Task < ApplicationRecord 
   validates :title, presence: true
   validates :content, presence: true
+  paginates_per 7
 
   scope :title_search, -> (title) { where('title LIKE ?', "%#{title}%")}
   scope :status_search, -> (status) { where('status LIKE ?', "%#{status}%")}
