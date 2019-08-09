@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
   before_action :set_params, only:[:show,:edit,:update,:destroy]
+  before_action :require_user_logged_in
 
   def index
     if params[:task] && params[:task][:search]

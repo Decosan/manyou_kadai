@@ -21,6 +21,9 @@ body {
   margin: 0;
   padding: 0;
 }
+.container {
+  min-height: 650px;
+}
 footer {
   background: #2f4f4f;
   height: 50px;
