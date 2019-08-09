@@ -114,8 +114,20 @@ RSpec.feature "タスク管理機能", type: :feature do
     fill_in "task_title", with: "3"
     select 'Pending', from: 'task_status'
     click_on 'Search'
+    
+    expect(page).to have_content 'Factoryで作ったデフォルトのコンテント3'
+  end
+  
+  scenario "Priorityボタンで優先順位を高い方からソートする" do
+    visit tasks_path
+    click_on "優先順位ソート"
     save_and_open_page
 
-    expect(page).to have_content 'Factoryで作ったデフォルトのコンテント3'
+    task_0 = all('li')[0]
+    task_1 = all('li')[1]
+    task_2 = all('li')[2]
+    expect(task_0).to have_content "Factoryで作ったデフォルトのコンテント2"
+    expect(task_1).to have_content "Factoryで作ったデフォルトのコンテント1"
+    expect(task_2).to have_content "Factoryで作ったデフォルトのコンテント3"
   end
 end

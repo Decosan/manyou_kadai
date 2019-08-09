@@ -9,6 +9,7 @@ FactoryBot.define do
     created_at {Date.today-5}
     sort_expired {Date.today+5}
     status {'Pending'}
+    priority {'Mid'}
   end
 
   # 作成するテストデータの名前を「second_task」とします
@@ -19,6 +20,7 @@ FactoryBot.define do
     created_at {Date.today-1}
     sort_expired {Date.today+1}
     status {''}
+    priority {'High'}
   end
 
   factory :third_task, class: Task do
@@ -27,5 +29,6 @@ FactoryBot.define do
     created_at {Date.today-3}
     sort_expired {Date.today+3}
     status {'Pending'}
+    priority {'Low'}
   end
 end

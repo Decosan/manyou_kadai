@@ -1,7 +1,8 @@
 <h1><%= t("view.index") %></h1>
 <%= link_to t("view.create_task") ,new_task_path, class:'btn btn-primary btn-lg' %>
 <%= link_to "終了期限ソート", tasks_path(sort_expired: "true"), class:'btn btn-success btn-lg' %>
-<%= link_to "終了期限ソートを解除", tasks_path, class:'btn btn-danger btn-lg' %>
+<%= link_to "優先順位ソート", tasks_path(sort_priority: "true"), class:'btn btn-warning btn-lg' %>
+<%= link_to "ソート解除", tasks_path, class:'btn btn-danger btn-lg' %>
 
 <%= form_with(scope: :task,url: tasks_path, method: :get,local: true)do |f| %>
   <%= f.label :title_search %>
@@ -40,11 +41,7 @@
         <% end %>
       </div>
       <div style="display: inline-block;">
-        <% if task.priority? %>
           <p style="color: blue;">Priority: <%= task.priority %></p>
-        <% else %>
-          <p style="color: red;">Undefined</p>  
-        <% end %>
       </div>
     </li>
   <% end %>
