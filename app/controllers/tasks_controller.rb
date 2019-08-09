@@ -1,6 +1,7 @@
 class TasksController < ApplicationController
   before_action :set_params, only:[:show,:edit,:update,:destroy]
   before_action :require_user_logged_in
+  before_aciotn :correct_user, only:[:show,:edit,:update,:destroy]
 
   def index
     if params[:task] && params[:task][:search]
@@ -28,7 +29,7 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params)
+    @task = current_user.tasks.build(task_params)
     if @task.save
       flash[:success] = t("view.success")
       redirect_to tasks_path
@@ -65,5 +66,11 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:title,:content,:sort_expired,:status,:priority)
+  end
+
+  def correct_user
+    unless current_user.id == @task.user.id
+      redirect_to new_session_path
+    end
   end
 end
