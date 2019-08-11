@@ -1,21 +1,23 @@
 class TasksController < ApplicationController
   before_action :set_params, only:[:show,:edit,:update,:destroy]
+  before_action :require_user_logged_in
+  before_action :correct_user, only:[:show,:edit,:update,:destroy]
 
   def index
     if params[:task] && params[:task][:search]
       if params[:task][:title].present? && params[:task][:status].present?
-        @tasks = Task.title_search(params[:task][:title]).status_search(params[:task][:status]).page(params[:page])
+        @tasks = current_user.tasks.title_search(params[:task][:title]).status_search(params[:task][:status]).page(params[:page])
       elsif params[:task][:title].present?
-        @tasks = Task.title_search(params[:task][:title]).page(params[:page])
+        @tasks = current_user.tasks.title_search(params[:task][:title]).page(params[:page])
       elsif params[:task][:status].present?
-        @tasks = Task.status_search(params[:task][:status]).page(params[:page])
+        @tasks = current_user.tasks.status_search(params[:task][:status]).page(params[:page])
       end
     elsif params[:sort_expired]
-      @tasks = Task.nil_limit.limit_sort.page(params[:page])
+      @tasks = current_user.tasks.nil_limit.limit_sort.page(params[:page])
     elsif params[:sort_priority]
-      @tasks = Task.order('priority DESC').page(params[:page])
+      @tasks = current_user.tasks.order('priority DESC').page(params[:page])
     else
-      @tasks = Task.all.order('created_at DESC').page(params[:page])
+      @tasks = current_user.tasks.all.order('created_at DESC').page(params[:page])
     end
   end
 
@@ -27,7 +29,7 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params)
+    @task = current_user.tasks.build(task_params)
     if @task.save
       flash[:success] = t("view.success")
       redirect_to tasks_path
@@ -64,5 +66,11 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:title,:content,:sort_expired,:status,:priority)
+  end
+
+  def correct_user
+    unless current_user.id == @task.user.id
+      redirect_to new_session_path
+    end
   end
 end
