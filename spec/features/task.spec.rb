@@ -1,40 +1,25 @@
 # このrequireで、Capybaraなどの、Feature Specに必要な機能を使用可能な状態にしています
 require 'rails_helper'
 
-RSpec.describe Task, type: :model do
-
-  it "titleが空ならバリデーションが通らない" do
-    task = Task.new(title: '', content: '失敗テスト')
-    expect(task).not_to be_valid
-  end
-
-  it "contentが空ならバリデーションが通らない" do
-    task2 = Task.new(title: '仮タイトル', content: '')
-    expect(task2).not_to be_valid
-  end
-
-  it "titleとcontentに内容が記載されていればバリデーションが通る" do
-    task3 = Task.new(title: '仮タイトル', content: '成功テスト')
-    expect(task3).to be_valid
-  end
-end
-
 # このRSpec.featureの右側に、「タスク管理機能」のように、テスト項目の名称を書きます（do ~ endでグループ化されています）
 RSpec.feature "タスク管理機能", type: :feature do
   background do
-    # あらかじめタスク一覧のテストで使用するためのタスクを二つ作成する
-
-    # backgroundの中に記載された記述は、そのカテゴリ内（feature "タスク管理機能", type: :feature do から endまでの内部）
-    # に存在する全ての処理内（scenario内）で実行される
-    # （「タスク一覧のテスト」でも「タスクが作成日時の降順に並んでいるかのテスト」でも、background内のコードが実行される）
-    FactoryBot.create(:task)
-    FactoryBot.create(:second_task)
-    FactoryBot.create(:third_task)
-  end
-  scenario "タスク一覧のテスト" do
     
-    visit tasks_path
-
+    user = FactoryBot.create(:user)
+    FactoryBot.create(:task, user_id: user.id)
+    FactoryBot.create(:task, title: "Factoryで作ったデフォルトのタイトル2", content: 'Factoryで作ったデフォルトのコンテント2',created_at: Date.today-1,sort_expired: Date.today+3,status: 'Finished',priority: 'High', user_id: user.id)
+    FactoryBot.create(:task, title: "Factoryで作ったデフォルトのタイトル3", content: 'Factoryで作ったデフォルトのコンテント3',created_at: Date.today-3,sort_expired: Date.today+1,status: 'Pending',priority: 'Low', user_id: user.id)
+    
+    visit new_session_path
+    fill_in "Email", with: "sample@123.com"
+    fill_in "Password", with: "sample123"
+  
+    click_button "Login"
+  end
+  
+  scenario "タスク一覧のテスト" do
+    click_on "Go Tasks"
+    
     # visitした（到着した）expect(page)に（タスク一覧ページに）「testtesttest」「samplesample」という文字列が
     # have_contentされているか？（含まれているか？）ということをexpectする（確認・期待する）テストを書いている
     expect(page).to have_content 'Factoryで作ったデフォルトのコンテント1'
@@ -42,24 +27,24 @@ RSpec.feature "タスク管理機能", type: :feature do
   end
 
   scenario "タスク作成のテスト" do
-    visit new_task_path
-    
-    fill_in "タスク名", with: "Today.."
-    fill_in "タスク内容", with: "So what.."
+    expect {
+      visit new_task_path
+      # byebug
+      fill_in "タスク名", with: "Today.."
+      fill_in "タスク内容", with: "So what.."
 
-    click_on '登録'
-    
-    # save_and_open_page
+      click_on '登録'
 
-    expect(page).to have_content 'So what..'
+      # タスク作成成功のフラッシュメッセージが表示されること
+      expect(page).to have_content "So what.."
+    }.to change(Task, :count).by(1)
   end
 
   
   scenario "タスク詳細のテスト" do
-    
     visit tasks_path
     # save_and_open_page
-    all('li')[0].click_on '詳細へ'
+    page.all("li")[0].click
 
     expect(page).to have_content 'Factoryで作ったデフォルトのコンテント2'
   end
@@ -68,10 +53,9 @@ RSpec.feature "タスク管理機能", type: :feature do
     # ここにテスト内容を記載する
     visit tasks_path
     # save_and_open_page
-    
-    task_0 = all('li')[0]
-    task_1 = all('li')[1]
-    task_2 = all('li')[2]
+    task_0 = page.all(".media-body")[0]
+    task_1 = page.all(".media-body")[1]
+    task_2 = page.all(".media-body")[2]
     expect(task_0).to have_content "Factoryで作ったデフォルトのコンテント2"
     expect(task_1).to have_content "Factoryで作ったデフォルトのコンテント3"
     expect(task_2).to have_content "Factoryで作ったデフォルトのコンテント1"
@@ -83,12 +67,12 @@ RSpec.feature "タスク管理機能", type: :feature do
     click_on '終了期限ソート'
     # save_and_open_page
     
-    task_0 = all('li')[0]
-    task_1 = all('li')[1]
-    task_2 = all('li')[2]
-    expect(task_0).to have_content "Factoryで作ったデフォルトのコンテント1"
-    expect(task_1).to have_content "Factoryで作ったデフォルトのコンテント3"
-    expect(task_2).to have_content "Factoryで作ったデフォルトのコンテント2"
+    task_0 = page.all(".media-body")[0]
+    task_1 = page.all(".media-body")[1]
+    task_2 = page.all(".media-body")[2]
+    expect(task_0).to have_content "Factoryで作ったデフォルトのコンテント3"
+    expect(task_1).to have_content "Factoryで作ったデフォルトのコンテント2"
+    expect(task_2).to have_content "Factoryで作ったデフォルトのコンテント1"
   end
 
 
@@ -121,13 +105,52 @@ RSpec.feature "タスク管理機能", type: :feature do
   scenario "Priorityボタンで優先順位を高い方からソートする" do
     visit tasks_path
     click_on "優先順位ソート"
-    save_and_open_page
 
-    task_0 = all('li')[0]
-    task_1 = all('li')[1]
-    task_2 = all('li')[2]
+    task_0 = page.all(".media-body")[0]
+    task_1 = page.all(".media-body")[1]
+    task_2 = page.all(".media-body")[2]
     expect(task_0).to have_content "Factoryで作ったデフォルトのコンテント2"
     expect(task_1).to have_content "Factoryで作ったデフォルトのコンテント1"
     expect(task_2).to have_content "Factoryで作ったデフォルトのコンテント3"
   end
+
+  scenario "ログインしていないのにタスクのページに飛ぼうとした場合、ログインページに遷移させる" do
+    click_on "Logout"
+    click_on "Go Tasks"
+    # save_and_open_page
+    expect(page).to have_selector 'h1', text: 'Log In'
+  end
+
+  scenario "自分が作成したタスクだけを表示する" do
+    click_on "Logout"
+    click_on "Sign up"
+    fill_in "Name", with: "ex2"
+    fill_in "Email", with: "ex2@example.com"
+    fill_in "Password", with: "ex2123"
+    fill_in "Confirmation", with: "ex2123"
+
+    click_button "Sign up"
+    expect(page).not_to have_content 'Factoryで作ったデフォルトのコンテント2'
+  end
+
+  scenario "ログインしている時は、ユーザー登録画面（new画面）に行かせない" do
+    visit new_user_path
+    expect(page).to have_selector 'h1', text: 'User Info.'
+  end
+
+  scenario "自分（current_user）以外のユーザのマイページ（userのshow画面）に行かせない" do
+    user = FactoryBot.create(:user, email: "ex3@example.com")
+    click_on "Logout"
+    click_on "Sign up"
+    fill_in "Name", with: "ex2"
+    fill_in "Email", with: "ex2@example.com"
+    fill_in "Password", with: "ex2123"
+    fill_in "Confirmation", with: "ex2123"
+    click_button "Sign up"
+    # byebug
+    visit user_path(user.id)
+    # save_and_open_page
+    expect(page).to have_selector 'h1', text: 'Log In'
+  end
+
 end
