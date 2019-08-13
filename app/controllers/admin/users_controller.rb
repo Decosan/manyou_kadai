@@ -2,9 +2,9 @@ class Admin::UsersController < ApplicationController
   before_action :admin_user, only:[:index]
   before_action :user_params, only:[:create,:update]
   before_action :set_user, only:[:edit,:update,:destroy,:show]
-
+  
   def index
-    @users = User.all.order("created_at DESC")
+    @users = User.select(:id, :name, :email, :password_digest, :created_at, :admin).order("created_at DESC")
   end
 
   def new
@@ -24,6 +24,7 @@ class Admin::UsersController < ApplicationController
 
   def show
     counts(@user)
+    @task = Task.where(user_id: @user.id)
   end
 
   def edit

@@ -13,7 +13,7 @@
         <h4 class="media-heading">Name:<%= user.name %></h4>
         Registerd: <%= user.created_at %> 
         <% unless current_user.id == user.id%> 
-          <%= link_to "Deatil",admin_user_path(user.id),class:'btn btn-info btn-xs' %>
+          <%= link_to "Detail",admin_user_path(user.id),class:'btn btn-info btn-xs' %>
         <% end %>
       </div>
     </li>
