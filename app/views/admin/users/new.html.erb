@@ -1,5 +1,5 @@
-<h1>Sign up</h1>
-<%= form_with(model: @user,local: true)do |f| %>
+<h1>Create New Admin</h1>
+<%= form_with(model: @user,url: admin_users_path,local: true)do |f| %>
   <%= render 'layouts/error_messages',model: f.object %>
 
   <div>
@@ -22,6 +22,9 @@
     <%= f.password_field :password_confirmation,class:'form-control' %>
   </div>
 
-  <%= f.submit "Sign up", class:'btn btn-primary btn-block' %>
-
+  <div>
+    <%= f.label :admin,"Admin Right" %>
+    <%= f.check_box :admin, {} , "true", "false" %>
+  </div>
+  <%= f.submit 'Go!', class:'btn btn-primary btn-block' %>
 <% end %>

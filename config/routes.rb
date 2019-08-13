@@ -2,9 +2,13 @@ Rails.application.routes.draw do
   
   root to: "sessions#new"
   
-  resources :tasks
+  resources :users, only:[:new,:show,:create]
 
-  resources :users, only:[:show,:new,:create]
+  resources :tasks
+  
+  namespace :admin do
+    resources :users
+  end
 
   resources :sessions, only:[:new,:create,:destroy]
   
