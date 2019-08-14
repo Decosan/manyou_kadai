@@ -41,9 +41,13 @@ class Admin::UsersController < ApplicationController
   end
 
   def destroy
-    @user.destroy
-    flash[:danger] ="Delete user!"
-    redirect_to admin_users_path
+    if @user.destroy
+      flash[:danger] ="Delete user!"
+      redirect_to admin_users_path
+    else
+      flash[:success] ="少なくとも1つのAdminユーザーが必要です"
+      redirect_to admin_user_path(@user)
+    end
   end
 
   private
