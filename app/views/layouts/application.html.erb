@@ -25,6 +25,7 @@
         <div class="collapse navbar-collapse" id="navbarEexample1">
           <ul class="nav navbar-nav">
             <% if logged_in? %>
+              <li style="font-weight: bold; color: blue; padding: 15px;">Login User: <%= current_user.name %></li>
               <li><%= link_to 'User Info', user_path(current_user) %></li>
               <li><%= link_to 'Logout', session_path(current_user),method: :delete, data: {confirm:'Are you sure?'} %></li>
             <% else %>
