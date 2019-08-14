@@ -1,5 +1,5 @@
 class Admin::UsersController < ApplicationController
-  before_action :admin_user, only:[:index]
+  before_action :admin_user, only:[:index,:new,:edit]
   before_action :user_params, only:[:create,:update]
   before_action :set_user, only:[:edit,:update,:destroy,:show]
   
@@ -57,6 +57,13 @@ class Admin::UsersController < ApplicationController
   end
 
   def admin_user
-    redirect_to(root_path) unless current_user.admin?
+    # flash[:danger] ='You have no authorization.'
+    # redirect_to(root_path) unless current_user.admin?
+    if current_user.admin?
+      flash[:success] ='Welcome Admin member.'
+    else
+      flash[:danger] ='You have no authorization.'
+      redirect_to root_path
+    end
   end
 end
