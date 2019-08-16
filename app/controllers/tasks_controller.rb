@@ -4,6 +4,7 @@ class TasksController < ApplicationController
   before_action :correct_user, only:[:show,:edit,:update,:destroy]
 
   def index
+    # @labels = Label.pluck(:title)
     if params[:task] && params[:task][:search]
       if params[:task][:title].present? && params[:task][:status].present?
         @tasks = current_user.tasks.title_search(params[:task][:title]).status_search(params[:task][:status]).page(params[:page])
@@ -11,6 +12,9 @@ class TasksController < ApplicationController
         @tasks = current_user.tasks.title_search(params[:task][:title]).page(params[:page])
       elsif params[:task][:status].present?
         @tasks = current_user.tasks.status_search(params[:task][:status]).page(params[:page])
+      elsif params[:task][:label_ids].present?
+        # binding.pry
+        @tasks = current_user.tasks.joins(:task_labels).where('task_labels.label_id = ?', params[:task][:label_ids]).page(params[:page])
       end
     elsif params[:sort_expired]
       @tasks = current_user.tasks.nil_limit.limit_sort.page(params[:page])
@@ -65,7 +69,7 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title,:content,:sort_expired,:status,:priority)
+    params.require(:task).permit(:title,:content,:sort_expired,:status,:priority,label_ids: [])
   end
 
   def correct_user

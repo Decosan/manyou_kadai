@@ -1,9 +1,12 @@
-100.times do |n|
-  title = Faker::Games::Pokemon.name
-  content = Faker::Sports::Football
-  sort_expired = Faker::Date
-  Task.create!(title: title,
-               content: content,
-               sort_expired: sort_expired,
-               )
-end
+Label.find_or_create_by(title: 'Hobby')
+Label.find_or_create_by(title: 'Work')
+Label.find_or_create_by(title: 'Life')
+Label.find_or_create_by(title: 'Family')
+Label.find_or_create_by(title: 'Night')
+Label.find_or_create_by(title: 'Freinds')
+Label.find_or_create_by(title: 'Good')
+Label.find_or_create_by(title: 'Bad')
+Label.find_or_create_by(title: 'Movie')
+Label.find_or_create_by(title: 'Music')
+Label.find_or_create_by(title: 'Bike')
+Label.find_or_create_by(title: 'Golf')
