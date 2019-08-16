@@ -24,7 +24,8 @@ RSpec.feature "Admin管理機能", type: :feature do
   scenario "管理者は他ユーザーのタスクとタスク数を閲覧できる" do
 
     click_on "Admin Page"
-    click_on "Detail"
+    all('.media')[0].click_on 'Detail'
+    save_and_open_page
     expect(page).to have_selector 'li', text: 'Factoryで作ったデフォルトのタイトル1'
     expect(page).to have_selector 'span', text: '1ケ'
   end
@@ -32,7 +33,7 @@ RSpec.feature "Admin管理機能", type: :feature do
   scenario "管理者は他ユーザーを削除できる" do
     expect{
       click_on "Admin Page"
-      click_on "Detail"
+      all('.media')[0].click_on 'Detail'
       click_on "Delete"
     }.to change(User, :count).by(-1)
   end

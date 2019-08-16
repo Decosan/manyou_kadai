@@ -184,7 +184,7 @@ RSpec.feature "タスク管理機能", type: :feature do
     click_on '登録'
     
     click_on '新規タスク作成'
-    save_and_open_page
+    # save_and_open_page
 
     fill_in "タスク名", with: "TestTitle"
     fill_in "タスク内容", with: "TestContent"
@@ -194,7 +194,16 @@ RSpec.feature "タスク管理機能", type: :feature do
 
     select 'Life', from: 'task_label_ids'
     click_on 'Search'
+    expect(page).not_to have_content "So what.."
     expect(page).to have_content "TestContent"
   end
 
+  scenario "指定なしで検索してもエラーにならない" do
+    visit tasks_path
+    fill_in "task_title", with: ""
+    select "Select Box", from: 'task_status'
+    select "Select Box", from: 'task_label_ids'
+
+    expect(page).to have_selector 'h1', text: 'タスク一覧'
+  end
 end

@@ -47,11 +47,15 @@
           <p style="color: blue;">Priority: <%= task.priority %> /</p>
       </div>
       <div style="display: inline-block;">
+        <% if task.labels.any? %>
           <p style="color: blue;">Category: 
             <% task.labels.each_with_index do |label,idx| %>
               <%= idx + 1%>: <%= label.title %>
             <% end %>
-          </p>
+          </p>  
+        <% else %>
+          <p style="color: red;">No Category</p>
+        <% end %>         
       </div>
     </li>
   <% end %>
