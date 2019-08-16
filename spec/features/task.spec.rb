@@ -198,12 +198,17 @@ RSpec.feature "タスク管理機能", type: :feature do
     expect(page).to have_content "TestContent"
   end
 
-  scenario "指定なしで検索してもエラーにならない" do
+  scenario "指定なしで検索すると全件表示となる" do
     visit tasks_path
     fill_in "task_title", with: ""
     select "Select Box", from: 'task_status'
     select "Select Box", from: 'task_label_ids'
 
-    expect(page).to have_selector 'h1', text: 'タスク一覧'
+    task_0 = page.all(".media-body")[0]
+    task_1 = page.all(".media-body")[1]
+    task_2 = page.all(".media-body")[2]
+    expect(task_0).to have_content "Factoryで作ったデフォルトのコンテント2"
+    expect(task_1).to have_content "Factoryで作ったデフォルトのコンテント3"
+    expect(task_2).to have_content "Factoryで作ったデフォルトのコンテント1"
   end
 end

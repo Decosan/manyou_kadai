@@ -6,7 +6,8 @@ class TasksController < ApplicationController
   def index
     if params[:task] && params[:task][:search]
       if params[:task][:title] == "" && params[:task][:status] == "" && params[:task][:label_ids] == ""
-        redirect_back(fallback_location: root_path)
+        redirect_to tasks_path
+        # redirect_back(fallback_location: root_path)
       elsif params[:task][:title].present? && params[:task][:status].present?
         @tasks = current_user.tasks.title_search(params[:task][:title]).status_search(params[:task][:status]).page(params[:page])
       elsif params[:task][:title].present?
