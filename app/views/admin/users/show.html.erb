@@ -35,7 +35,13 @@
         <div style="display: inline-block;">
           <p style="color: blue;">/ Priority: <%= task.priority %></p>
         </div>
-        
+        <div style="display: inline-block;">
+          <p style="color: blue;">Category: 
+            <% task.labels.each_with_index do |label,idx| %>
+              <%= idx + 1%> : <%= label.title %>
+            <% end %>
+          </p>
+      </div>
       </li>
     <% end %>
   </ul>  

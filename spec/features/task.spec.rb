@@ -6,6 +6,10 @@ RSpec.feature "タスク管理機能", type: :feature do
   background do
     
     user = FactoryBot.create(:user)
+    FactoryBot.create(:label)
+    FactoryBot.create(:label, title:"Work")
+    FactoryBot.create(:label, title:"Life")
+
     FactoryBot.create(:task, user_id: user.id)
     FactoryBot.create(:task, title: "Factoryで作ったデフォルトのタイトル2", content: 'Factoryで作ったデフォルトのコンテント2',created_at: Date.today-1,sort_expired: Date.today+3,status: 'Finished',priority: 'High', user_id: user.id)
     FactoryBot.create(:task, title: "Factoryで作ったデフォルトのタイトル3", content: 'Factoryで作ったデフォルトのコンテント3',created_at: Date.today-3,sort_expired: Date.today+1,status: 'Pending',priority: 'Low', user_id: user.id)
@@ -153,4 +157,58 @@ RSpec.feature "タスク管理機能", type: :feature do
     expect(page).to have_selector 'h1', text: 'Log In'
   end
 
+  scenario "タスクに複数のラベルを紐付けることができる" do
+    expect {
+      visit new_task_path
+      # byebug
+      fill_in "タスク名", with: "Today.."
+      fill_in "タスク内容", with: "So what.."
+      check "task_label_ids_40"
+      check "task_label_ids_41"
+      click_on '登録'
+      # タスク作成成功のフラッシュメッセージが表示されること
+      # save_and_open_page  
+      task_0 = page.all(".media")[0]
+      expect(task_0).to have_selector 'p', text: "Category: 1: Hobby 2: Work"
+    }.to change(Task, :count).by(1)
+
+  end
+
+  scenario "紐付いたラベルで検索することができる" do
+    visit new_task_path
+    # byebug
+    fill_in "タスク名", with: "Today.."
+    fill_in "タスク内容", with: "So what.."
+    check "task_label_ids_43"
+    check "task_label_ids_44"
+    click_on '登録'
+    
+    click_on '新規タスク作成'
+    # save_and_open_page
+
+    fill_in "タスク名", with: "TestTitle"
+    fill_in "タスク内容", with: "TestContent"
+    check "task_label_ids_44"
+    check "task_label_ids_45"
+    click_on '登録'
+
+    select 'Life', from: 'task_label_ids'
+    click_on 'Search'
+    expect(page).not_to have_content "So what.."
+    expect(page).to have_content "TestContent"
+  end
+
+  scenario "指定なしで検索すると全件表示となる" do
+    visit tasks_path
+    fill_in "task_title", with: ""
+    select "Select Box", from: 'task_status'
+    select "Select Box", from: 'task_label_ids'
+
+    task_0 = page.all(".media-body")[0]
+    task_1 = page.all(".media-body")[1]
+    task_2 = page.all(".media-body")[2]
+    expect(task_0).to have_content "Factoryで作ったデフォルトのコンテント2"
+    expect(task_1).to have_content "Factoryで作ったデフォルトのコンテント3"
+    expect(task_2).to have_content "Factoryで作ったデフォルトのコンテント1"
+  end
 end

@@ -5,12 +5,17 @@ class TasksController < ApplicationController
 
   def index
     if params[:task] && params[:task][:search]
-      if params[:task][:title].present? && params[:task][:status].present?
+      if params[:task][:title] == "" && params[:task][:status] == "" && params[:task][:label_ids] == ""
+        redirect_to tasks_path
+        # redirect_back(fallback_location: root_path)
+      elsif params[:task][:title].present? && params[:task][:status].present?
         @tasks = current_user.tasks.title_search(params[:task][:title]).status_search(params[:task][:status]).page(params[:page])
       elsif params[:task][:title].present?
         @tasks = current_user.tasks.title_search(params[:task][:title]).page(params[:page])
       elsif params[:task][:status].present?
         @tasks = current_user.tasks.status_search(params[:task][:status]).page(params[:page])
+      elsif params[:task][:label_ids].present?
+        @tasks = current_user.tasks.joins(:task_labels).where('task_labels.label_id = ?', params[:task][:label_ids]).page(params[:page])
       end
     elsif params[:sort_expired]
       @tasks = current_user.tasks.nil_limit.limit_sort.page(params[:page])
@@ -65,7 +70,7 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title,:content,:sort_expired,:status,:priority)
+    params.require(:task).permit(:title,:content,:sort_expired,:status,:priority,label_ids: [])
   end
 
   def correct_user
