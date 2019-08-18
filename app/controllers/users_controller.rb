@@ -4,6 +4,8 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    # @tasks = current_user.tasks.where(sort_expired:(Date.today + 7.day)..Date.today)
+    @tasks = current_user.tasks.where.not(sort_expired: Time.zone.today + 7.day..Float::INFINITY).order(sort_expired: :ASC)
   end
 
   def new
