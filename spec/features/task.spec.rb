@@ -12,7 +12,7 @@ RSpec.feature "タスク管理機能", type: :feature do
 
     FactoryBot.create(:task, user_id: user.id)
     FactoryBot.create(:task, title: "Factoryで作ったデフォルトのタイトル2", content: 'Factoryで作ったデフォルトのコンテント2',created_at: Date.today-1,sort_expired: Date.today+3,status: 'Finished',priority: 'High', user_id: user.id)
-    FactoryBot.create(:task, title: "Factoryで作ったデフォルトのタイトル3", content: 'Factoryで作ったデフォルトのコンテント3',created_at: Date.today-3,sort_expired: Date.today+1,status: 'Pending',priority: 'Low', user_id: user.id)
+    FactoryBot.create(:task, title: "Factoryで作ったデフォルトのタイトル3", content: 'Factoryで作ったデフォルトのコンテント3',created_at: Date.today-3,sort_expired: Date.today-1,status: 'Pending',priority: 'Low', user_id: user.id)
     
     visit new_session_path
     fill_in "Email", with: "sample@123.com"
@@ -210,5 +210,14 @@ RSpec.feature "タスク管理機能", type: :feature do
     expect(task_0).to have_content "Factoryで作ったデフォルトのコンテント2"
     expect(task_1).to have_content "Factoryで作ったデフォルトのコンテント3"
     expect(task_2).to have_content "Factoryで作ったデフォルトのコンテント1"
+  end
+
+  scenario "StatusカラムがFinished以外のもので、直近１周間前のタスク、期限を過ぎたタスクをusers#showに表示" do
+    click_on "User Info"
+    save_and_open_page
+
+    expect(page).not_to have_content 'Factoryで作ったデフォルトのコンテント1'
+    expect(page).not_to have_content 'Factoryで作ったデフォルトのコンテント2'
+    expect(page).to have_content 'Factoryで作ったデフォルトのコンテント3'
   end
 end
