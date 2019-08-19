@@ -3,6 +3,9 @@ class User < ApplicationRecord
   before_validation {email.downcase!}
   has_many :tasks , dependent: :destroy
   before_destroy :least_one
+
+  has_many :user_groups, dependent: :destroy
+  has_many :groups, through: :user_groups, source: :group
   
   validates :name,  presence: true, length: { maximum: 30 }
   validates :email, presence: true, length: { maximum: 255 },uniqueness: true,
