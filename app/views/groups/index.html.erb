@@ -1,2 +1,24 @@
-<h1>Groups#index</h1>
-<p>Find me in app/views/groups/index.html.erb</p>
+<h1>Group Index</h1>
+<ul class="media-list">
+  <% @groups.each.with_index(1) do |group,idx| %>
+    <li class="media">
+      <h4 class="media-left" style="color: blue;">
+        No.<%= idx %> 
+      </h4>
+      <div class="media-body">
+        <h4 class="media-heading"><%= group.name %></h4>
+        Registerd: <%= group.created_at %> 
+        <% if group.user_groups.pluck(:user_id).include?(current_user.id) %>
+          <%= link_to "Detail",group_path(group.id),class:'btn btn-info btn-xs' %>
+          <% unless group.user_id == current_user.id %>  
+            <%= link_to "Leave..",user_group_path(id: group.id),method: :delete,class: 'btn btn-danger btn-xs' %>
+          <% else %>
+            <span class="badge">ADM</span> 
+          <% end %> 
+        <% else %>
+          <%= link_to "Join!",user_groups_path(group_id: group.id),method: :post,class: 'btn btn-success btn-xs' %>
+        <% end %>  
+      </div>
+    </li>
+  <% end %> 
+</ul>

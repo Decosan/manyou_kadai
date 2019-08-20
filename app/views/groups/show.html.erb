@@ -1,2 +1,77 @@
-<h1>Groups#show</h1>
-<p>Find me in app/views/groups/show.html.erb</p>
+<div class='row'>
+  <div class='col-xs-4'>
+  <h1><%=@group.name %> Info.</h1>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Group: <%= @group.name %>
+      </div>
+      <div class="panel-body">
+        Registerd: <%= @group.created_at %>
+      </div>
+    </div>
+    <% if @group.user_id == current_user.id %>
+      <%= link_to "Edit",edit_group_path(@group),class:'btn btn-success btn-lg' %>
+      <%= link_to "Delete",group_path(@group),method: :delete, class:'btn btn-danger btn-lg' %>
+    <% end %>  
+    <div>
+      <h4>Members <span class='badge'> <%= @user_count %>名</span></h4>
+      <ul>
+        <% @group.users.pluck(:name).each.with_index(1) do |n,idx| %>
+          <li class="media">
+            <h4 class="media-left" style="color: blue;">
+              No:<%= idx %> 
+            </h4>
+            <div class="media-body">
+              <h4 class="media-heading"> <%= n %></h4>
+            </div>
+          </li>
+        <% end %>
+      <ul>
+    </div> 
+  </div>
+
+  <div class="col-xs-8">
+    <h2>Member's Tasks</h2>
+    <ul>
+      <% @users.each do |user| %>
+        <% user.tasks.each.with_index(1) do |task,idx| %>
+          <li class="media">
+            <h4 class="media-left" style="color: blue;">
+              No.<%= idx %> <%= user.name %>
+            </h4>
+            <div class="media-body">
+              <h4 class="media-heading"><%= task.title %></h4>
+              <%= task.content %>
+              <div>
+                <div style="display: inline-block;">
+                  <% if task.sort_expired? %>
+                    <p style="color: blue;">Due until: <%= task.sort_expired %></p>
+                  <% else %>
+                    <p style="color: red;">No Due</p>
+                  <% end %>
+                </div>
+                <div style="display: inline-block;">
+                  <% if task.status? %>
+                    <p style="color: blue;">/ Status: <%= task.status %></p>
+                  <% else %>
+                    <p style="color: red;">/ Undefined</p>  
+                  <% end %>
+                </div>
+                <div style="display: inline-block;">
+                  <p style="color: blue;">/ Priority: <%= task.priority %></p>
+                </div>
+                <div style="display: inline-block;">
+                  <p style="color: blue;">/ Category: 
+                    <% task.labels.each_with_index do |label,idx| %>
+                      <%= idx + 1%> : <%= label.title %>
+                    <% end %>
+                  </p>
+                </div>
+              </div>
+            </div>  
+          </li>
+        <% end %>
+      <% end %>
+    </ul> 
+  </div>
+</div>  
