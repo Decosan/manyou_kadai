@@ -9,7 +9,7 @@
         USER: <%= @user.name %>
       </div>
       <div class="panel-body">
-        Registerd: <%= @user.created_at %>
+        Registerd: <%= @user.created_at.strftime('%Y/%m/%d') %>
       </div>
     </div> 
   </div>

@@ -2,14 +2,15 @@ class GroupsController < ApplicationController
   before_action :set_group, only:[:show,:edit,:update,:destroy]
   before_action :group_user, only:[:show]
   before_action :admin_user, only:[:edit,:destroy]
-
+  after_action :read, only:[:show]
+  
   def index
     @groups = Group.all
   end
 
   def show
-    @users = @group.users
-    count(@users)
+    @tasks = Task.joins(user:[:groups]).merge(Group.where(id: @group.id)).page(params[:page])
+    count(@group.users)
   end
 
   def new
@@ -48,6 +49,10 @@ class GroupsController < ApplicationController
   end
 
   private
+
+  def read
+    @group.user_groups.where(user_id: current_user.id)[0].update(accesstime: Time.now)
+  end
 
   def set_group
     @group = Group.find(params[:id])

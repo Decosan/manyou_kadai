@@ -1,9 +1,9 @@
 class User < ApplicationRecord
   has_secure_password
   before_validation {email.downcase!}
-  has_many :tasks , dependent: :destroy
   before_destroy :least_one
 
+  has_many :tasks , dependent: :destroy
   has_many :user_groups, dependent: :destroy
   has_many :groups, through: :user_groups, source: :group
   
@@ -20,4 +20,6 @@ class User < ApplicationRecord
       throw :abort
     end
   end
+
 end
+
