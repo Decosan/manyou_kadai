@@ -97,4 +97,37 @@ RSpec.feature "グループ管理機能", type: :feature do
     expect(page).not_to have_selector 'group1', text: 'Detail' 
   end
 
+  scenario "メンバーページに既読、未読判定を追加" do
+    click_on "Go Tasks"
+    click_on "新規タスク作成"
+    fill_in "タスク名", with: "Today.."
+    fill_in "タスク内容", with: "So what.."
+    click_on "登録する"
+
+    click_on "Groups"
+    click_on "Create New Group"
+
+    fill_in "Group Name", with: 'Moku_Moku'
+    click_on "Create New Group"
+
+    click_on "Logout"
+    click_on "Sign up"
+    fill_in "Name", with: "ex2"
+    fill_in "Email", with: "ex2@example.com"
+    fill_in "Password", with: "ex2123"
+    fill_in "Confirmation", with: "ex2123"
+    click_button "Sign up"
+    click_on "Groups"
+
+    
+    page.all('.media-body')[2].click_link 'Join!'
+    page.all('.media-body')[2].click_link 'Detail'
+    save_and_open_page    
+    expect(page).to have_selector '.media-left', text: '未読' 
+    
+    click_on "Groups"
+    page.all('.media-body')[2].click_link 'Detail'
+    expect(page).not_to have_selector '.media-left', text: '未読' 
+  end
+
 end

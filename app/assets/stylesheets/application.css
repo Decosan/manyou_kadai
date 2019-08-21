@@ -17,7 +17,7 @@
 
  
 body {
-  background: #fffff0;
+  background: #f8f8ff;
   margin: 0;
   padding: 0;
 }
@@ -26,11 +26,16 @@ body {
   min-height: 650px;
 }
 
+.navbar {
+  background: #b0c4de;
+}
+
 footer {
   background: #2f4f4f;
   height: 50px;
   position: relative;
 }
+
 footer p {
   margin-bottom: 0;
   color: white;
@@ -39,12 +44,14 @@ footer p {
   top: 30px;
   right: 10px;
 }
+
 hr {
   border-width: 1px 0px 0px 0px;
   border-style: solid;
   border-color: black;
   height: 1px;
   }
+
 h2.glyphicon {
   color: red;
 }
