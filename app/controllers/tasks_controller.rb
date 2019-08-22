@@ -70,7 +70,7 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title,:content,:sort_expired,:status,:priority,label_ids: [])
+    params.require(:task).permit(:title,:content,:sort_expired,:status,:priority,label_ids: [],images: [])
   end
 
   def correct_user
