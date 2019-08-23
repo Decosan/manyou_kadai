@@ -16,16 +16,18 @@
     <div>
       <h4>Members <span class='badge'> <%= @user_count %>名</span></h4>
       <ul>
-        <% @group.users.pluck(:name).each.with_index(1) do |n,idx| %>
+        <% @group.users.each.with_index(1) do |user,idx| %>
           <li class="media">
             <h4 class="media-left" style="color: blue;">
               No:<%= idx %> 
-              <% if @group.users.avatar.attached? %>
-                <%= image_tag @group.users.avatar.variant(resize: "50x50"), style:'border-radius: 50%;' %>
-              <% end %>
+                <% if user.avatar.attached? %>
+                  <%= image_tag user.avatar.variant(resize: "50x50"), style:'border-radius: 50%;' %>
+                <% else %>
+                  <span class='badge'>No Image<span>  
+                <% end %>  
             </h4>
             <div class="media-body">
-              <h4 class="media-heading"> <%= n %></h4>
+              <h4 class="media-heading"> <%= user.name %></h4>
             </div>
           </li>
         <% end %>
@@ -37,12 +39,15 @@
     <h2>Member Tasks</h2>
       <ul>
   
-        <% @tasks.order('created_at DESC').each.with_index(1) do |task,idx| %>
+        <% @tasks.order('created_at DESC').each do |task,idx| %>
             <li class="media">
               <h4 class="media-left" style="color: blue;">
-                <%= task.user.name %> <%= idx %>
+                <%= task.user.name %>
+                <% if task.user.avatar.attached? %>
+                  <%= image_tag task.user.avatar.variant(resize: "50x50"), style:'border-radius: 50%;' %>
+                <% end %> 
                 <% if task.created_at > @group.user_groups.where(user_id: current_user.id)[0].accesstime %>
-                <span class="badge">未読</span>
+                  <span class="badge">未読</span>
                 <% end %>
               </h4>
               <div class="media-body">
