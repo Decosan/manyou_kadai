@@ -1,6 +1,8 @@
 class Task < ApplicationRecord 
   has_many :task_labels, dependent: :destroy
   has_many :labels, through: :task_labels, source: :label
+  has_many_attached :images
+  # has_one_attached :image
   
   belongs_to :user
   validates :title, presence: true

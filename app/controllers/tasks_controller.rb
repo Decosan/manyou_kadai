@@ -2,6 +2,7 @@ class TasksController < ApplicationController
   before_action :set_params, only:[:show,:edit,:update,:destroy]
   before_action :require_user_logged_in
   before_action :correct_user, only:[:show,:edit,:update,:destroy]
+  before_action :delete_picture, only:[:update]
 
   def index
     if params[:task] && params[:task][:search]
@@ -35,6 +36,9 @@ class TasksController < ApplicationController
 
   def create
     @task = current_user.tasks.build(task_params)
+    # if file = params[:task][images: []]
+    #   @task.images.attach(file)
+    # end
     if @task.save
       flash[:success] = t("view.success")
       redirect_to tasks_path
@@ -48,6 +52,7 @@ class TasksController < ApplicationController
   end
 
   def update
+    # binding.pry 
     if @task.update(task_params)
       flash[:success] = t("view.success")
       redirect_to tasks_path
@@ -68,9 +73,21 @@ class TasksController < ApplicationController
   def set_params
     @task = Task.find(params[:id])
   end
+  
+  def delete_picture
+    # binding.pry
+    if images = params[:task][:destroy_images]
+      images.each do |img| 
+        @task.images.find(img).destroy
+      end
+      redirect_back(fallback_location: root_path)
+    else
+
+    end
+  end
 
   def task_params
-    params.require(:task).permit(:title,:content,:sort_expired,:status,:priority,label_ids: [])
+    params.require(:task).permit(:title,:content,:sort_expired,:status,:priority,label_ids: [],images: [])
   end
 
   def correct_user

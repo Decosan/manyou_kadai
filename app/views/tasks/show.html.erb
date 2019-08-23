@@ -32,5 +32,15 @@
 			<p style="color: red;">No Category</p>
 		<% end %>	
 	</div>
+	<div>
+		<% if @task.images.attached? %>
+			<ul>
+				<% @task.images.each do |image| %>
+					<li><%= link_to "#{image.filename}", image %></li>
+				<% end %>	
+			</ul>
+		<% end %>
+	</div>
+
 	<p><a class="btn btn-primary btn-lg" href="/tasks" role="button"><%= t("view.back") %></a></p>
 </div>

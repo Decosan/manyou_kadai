@@ -1,4 +1,4 @@
-<%= form_with(model: task,local: true)do |f| %>
+<%= form_with(model: task,local: true) do |f| %>
   <%= render 'layouts/error_messages', model: f.object %>
   <div class="form">
     <%= f.label :title %>
@@ -34,6 +34,22 @@
       <% end %>
     </div>  
   </div>
+
+  <div>
+    <% if @task.images.attached? %>
+    <p>削除するファイルをチェック</p>
+      <ul>
+        <% @task.images.each do |image| %>
+          <li>
+            <%= f.check_box :destroy_images, { multiple: true, checked: false, include_hidden: false }, image[:id] %>
+            <label><%= image.filename %></label>
+          </li>
+        <% end %>
+        
+      </ul>
+		<% end %>
+	</div>
+  <%= f.file_field :images, multiple: true %>
 
   <%= f.submit class:'btn btn-primary btn-block' %>
 
