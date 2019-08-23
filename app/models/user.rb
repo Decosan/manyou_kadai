@@ -1,7 +1,10 @@
 class User < ApplicationRecord
+  has_one_attached :avatar
+  
   has_secure_password
   before_validation {email.downcase!}
   before_destroy :least_one
+  # before_update :thumbnail
 
   has_many :tasks , dependent: :destroy
   has_many :user_groups, dependent: :destroy
@@ -13,6 +16,10 @@ class User < ApplicationRecord
 
 
   private
+
+  # def thumbnail
+  #   return self.avatar.variant(resize: '400 x 250')
+  # end
 
   def least_one
     if self.admin? && User.all.where(admin: "true").count == 1

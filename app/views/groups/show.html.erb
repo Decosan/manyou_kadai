@@ -20,6 +20,9 @@
           <li class="media">
             <h4 class="media-left" style="color: blue;">
               No:<%= idx %> 
+              <% if @group.users.avatar.attached? %>
+                <%= image_tag @group.users.avatar.variant(resize: "50x50"), style:'border-radius: 50%;' %>
+              <% end %>
             </h4>
             <div class="media-body">
               <h4 class="media-heading"> <%= n %></h4>
