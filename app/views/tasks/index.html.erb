@@ -18,6 +18,15 @@
   <%= f.submit 'Search' %>
 <% end %>
 
+<%= month_calendar events: @tasks do |date,tasks| %>
+  <%= date %>
+  <% tasks.each do |task| %>
+    <div style='color: red;'>
+      <%= task.title %>
+    </div>
+  <% end %> 
+<% end %>
+
 <ul class="media-list alltasks">
   <% @tasks.each do |task| %>
     <li class="media">

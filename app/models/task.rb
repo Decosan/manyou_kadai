@@ -15,4 +15,8 @@ class Task < ApplicationRecord
   scope :nil_limit, -> { where.not(sort_expired: nil)}
 
   enum priority: { Low: 0, Mid: 1, High: 2}
+
+  def start_time
+    self.sort_expired
+  end 
 end
