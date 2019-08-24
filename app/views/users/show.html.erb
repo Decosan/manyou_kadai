@@ -6,9 +6,18 @@
     <% end %>
     <div class="panel panel-default">
       <div class="panel-heading">
-        USER: <%= @user.name %>
+        <% if @user.avatar.attached? %>
+          <%= image_tag @user.avatar.variant(resize: "400x250"), style:'border-radius: 5%;' %>
+        <% end %>
+        <%= form_with(model: @user,local: true)do |f| %>
+          <%= f.file_field :avatar %>
+          <%= f.submit '決定',class:'btn btn-primary btn-xs' %>
+        <% end %>  
       </div>
       <div class="panel-body">
+        USER: <%= @user.name %> 
+      </div>
+      <div class="panel-footer">
         Registerd: <%= @user.created_at.strftime('%Y/%m/%d') %>
       </div>
     </div> 
