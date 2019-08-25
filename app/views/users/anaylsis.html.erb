@@ -32,7 +32,7 @@
       <%= link_to "新規ラベル作成", new_label_path,class:'btn btn-primary btn-md' %>
       <ul class="media-list">
         <% @labels.each.with_index(1) do |label,idx| %>
-          <li class="media">
+          <li class="media" style='width: 300px'>
             <h5 class="media-left" style="color: blue;">
               No.<%= idx %>
             </h5>
@@ -49,7 +49,7 @@
       </ul>
       <h4 class="glyphicon glyphicon-hand-right"> ラベル使用頻度</h4>
       
-      <%= column_chart @tasks.left_joins(:task_labels).group(:label_id).count %>
-      <%= column_chart @tasks.left_joins(:task_labels).group(:label_id).count %>
+      <%= column_chart @labels.joins(:task_labels).group("labels.title").count %>
+
   </div>
 </div>    

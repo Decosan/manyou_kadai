@@ -58,7 +58,7 @@ h2.glyphicon {
 }
 .flex-box {
   margin-top: -20px;
-  width: 250px;
+  /* width: 250px; */
   display: flex;  
   justify-content: flex-end;            /* フレックスボックスにする */
 }
