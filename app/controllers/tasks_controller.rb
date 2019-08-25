@@ -53,7 +53,6 @@ class TasksController < ApplicationController
   end
 
   def update
-    # binding.pry 
     if @task.update(task_params)
       flash[:success] = t("view.success")
       redirect_to tasks_path
@@ -76,7 +75,6 @@ class TasksController < ApplicationController
   end
   
   def delete_picture
-    # binding.pry
     if images = params[:task][:destroy_images]
       images.each do |img| 
         @task.images.find(img).destroy
