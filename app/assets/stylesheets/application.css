@@ -56,3 +56,9 @@ hr {
 h2.glyphicon {
   color: red;
 }
+.flex-box {
+  margin-top: -20px;
+  width: 250px;
+  display: flex;  
+  justify-content: flex-end;            /* フレックスボックスにする */
+}

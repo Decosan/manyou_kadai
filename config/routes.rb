@@ -2,7 +2,11 @@ Rails.application.routes.draw do
   
   root to: "sessions#new"
   
-  resources :users, only:[:new,:show,:create,:edit,:update]
+  resources :users, only:[:new,:show,:create,:edit,:update] do
+    member do
+      get :anaylsis
+    end
+  end
 
   resources :tasks
   
@@ -15,5 +19,7 @@ Rails.application.routes.draw do
   resources :groups
 
   resources :user_groups, only:[:create,:destroy]
+
+  resources :labels, only:[:new,:create,:edit,:update,:destroy]
 
 end
