@@ -3,7 +3,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.3'
 
-gem 'whenever', require: false
 gem "chartkick"
 gem 'simple_calendar', '~> 2.0'
 gem 'mini_magick', '~> 4.8'
@@ -27,6 +26,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'letter_opener_web'
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'spring'

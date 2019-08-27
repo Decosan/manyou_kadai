@@ -41,6 +41,7 @@ class TasksController < ApplicationController
     #   @task.images.attach(file)
     # end
     if @task.save
+      # ContactMailer.contact_mail(current_user).deliver
       flash[:success] = t("view.success")
       redirect_to tasks_path
     else
