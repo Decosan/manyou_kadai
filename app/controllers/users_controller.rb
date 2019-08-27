@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   end
 
   def anaylsis
-    @tasks = current_user.tasks
+    # @tasks = current_user.tasks
     @labels = Label.all
   end
 
