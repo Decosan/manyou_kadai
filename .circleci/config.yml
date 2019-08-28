@@ -1,74 +1,8 @@
-# Ruby CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-ruby/ for more details
-#
 version: 2
 jobs:
-  rubocop:
-    docker:
-      - image: ruby:2.6.3-alpine
-        environment:
-          RAILS_ENV: test
-          POSTGRES_HOST: 127.0.0.1
-      - image: postgres
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_DB: app_test
-    working_directory: ~/repo
+  build:
+    docker: # Executor タイプです。他に machine、macOS という実行タイプを指定できます
+      - image: ruby:2.6.3-alpine # プライマリコンテナです。このなかでジョブコマンドが実行されます
     steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-      - run: bundle install --jobs=4 --retry=3 --path vendor/bundle
-      - run: yarn install
-      - save_cache:
-          paths:
-            - ./vendor/bundle
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-      # Rubocop
-      - run:
-          name: Rubocop
-          command: bundle exec rubocop
-
-  rspec:
-    docker:
-      - image: uby:2.6.3-alpine
-        environment:
-          RAILS_ENV: test
-          POSTGRES_HOST: 127.0.0.1
-      - image: postgres
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_DB: app_test
-    working_directory: ~/repo
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-      - run: bundle install --jobs=4 --retry=3 --path vendor/bundle
-      - run: yarn install
-      - save_cache:
-          paths:
-            - ./vendor/bundle
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-      - run: bundle exec rake db:create
-      - run: bundle exec rake db:schema:load
-      # Rspec
-      - run:
-          name: Rspec
-          command: bundle exec rspec
-
-workflows:
-  version: 2
-  rubocop_rspec:
-    jobs:
-      - rubocop
-      - rspec:
-          requires:
-            - rubocop
+      - checkout # プロジェクトのディレクトリにあるコードをチェックアウトします
+      - run: echo "hello world" # 「echo」コマンドを実行します
