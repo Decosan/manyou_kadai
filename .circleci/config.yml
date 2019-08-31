@@ -1,16 +1,14 @@
 version: 2
-
 jobs:
-  hello_world_job:
-    docker:
-      - image: circleci/ruby
-
-    working_directory: ~/repo
-
+  build:
+    machine: true
+    image: circleci/ruby
     steps:
-      - checkout
-
-      - run:
-          name: execute hello world
-          command: |
-            echo 'hello world'
+    - checkout
+    - run:
+        command: echo "hello world"
+workflows:
+  version: 2
+  workflow:
+    jobs:
+    - build
