@@ -6,7 +6,7 @@ version: 2
 jobs:
   build:
     parallelism: 3
-    working_directory: ~/circleci-demo-ruby-rails
+    working_directory: ~/manyou
 
     docker:
       - image: circleci/ruby:2.4.2-jessie-node  # language image
