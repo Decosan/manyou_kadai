@@ -29,8 +29,8 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
       keys:
-        - rails-demo-bundle-v2-{{ checksum "Gemfile.lock" }}
-        - rails-demo-bundle-v2-
+        - manyou-bundle-v2-{{ checksum "Gemfile.lock" }}
+        - manyou-bundle-v2-
 
         - run:
             name: Bundle Install
@@ -38,14 +38,14 @@ jobs:
 
         # Store bundle cache
         - save_cache:
-            key: rails-demo-bundle-v2-{{ checksum "Gemfile.lock" }}
+            key: manyou-bundle-v2-{{ checksum "Gemfile.lock" }}
             paths:
             - vendor/bundle
 
         - restore_cache:
       keys:
-        - rails-demo-yarn-{{ checksum "yarn.lock" }}
-        - rails-demo-yarn-
+        - manyou-yarn-{{ checksum "yarn.lock" }}
+        - manyou-yarn-
 
         - run:
             name: Yarn Install
@@ -53,7 +53,7 @@ jobs:
 
         # Store yarn / webpacker cache
         - save_cache:
-            key: rails-demo-yarn-{{ checksum "yarn.lock" }}
+            key: manyou-yarn-{{ checksum "yarn.lock" }}
             paths:
               - ~/.cache/yarn    
 
