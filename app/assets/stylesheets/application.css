@@ -18,13 +18,13 @@
 
  
 body {
-  background: #f8f8ff;
+  background-image: url('polygon-background3.jpg');/* background: blue; */
   margin: 0;
   padding: 0;
 }
 
 .container {
-  min-height: 650px;
+  min-height: 670px;
 }
 
 .navbar {
