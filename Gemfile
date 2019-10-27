@@ -3,6 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.3'
 
+gem 'rails_12factor', group: :production
 gem "aws-sdk-s3", require: false
 gem "chartkick"
 gem 'simple_calendar', '~> 2.0'
