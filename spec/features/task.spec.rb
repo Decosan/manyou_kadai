@@ -4,7 +4,7 @@ require 'rails_helper'
 # このRSpec.featureの右側に、「タスク管理機能」のように、テスト項目の名称を書きます（do ~ endでグループ化されています）
 RSpec.feature "タスク管理機能", type: :feature do
   background do
-    
+
     user = FactoryBot.create(:user)
     FactoryBot.create(:label)
     FactoryBot.create(:label, title:"Work")
@@ -13,17 +13,16 @@ RSpec.feature "タスク管理機能", type: :feature do
     FactoryBot.create(:task, user_id: user.id)
     FactoryBot.create(:task, title: "Factoryで作ったデフォルトのタイトル2", content: 'Factoryで作ったデフォルトのコンテント2',created_at: Date.today-1,sort_expired: Date.today+3,status: 'Finished',priority: 'High', user_id: user.id)
     FactoryBot.create(:task, title: "Factoryで作ったデフォルトのタイトル3", content: 'Factoryで作ったデフォルトのコンテント3',created_at: Date.today-3,sort_expired: Date.today-1,status: 'Pending',priority: 'Low', user_id: user.id)
-    
+
     visit new_session_path
     fill_in "Email", with: "sample@123.com"
     fill_in "Password", with: "sample123"
-  
     click_button "Login"
   end
-  
+
   scenario "タスク一覧のテスト" do
     click_on "Go Tasks"
-    
+
     # visitした（到着した）expect(page)に（タスク一覧ページに）「testtesttest」「samplesample」という文字列が
     # have_contentされているか？（含まれているか？）ということをexpectする（確認・期待する）テストを書いている
     expect(page).to have_content 'Factoryで作ったデフォルトのコンテント1'
@@ -44,7 +43,7 @@ RSpec.feature "タスク管理機能", type: :feature do
     }.to change(Task, :count).by(1)
   end
 
-  
+
   scenario "タスク詳細のテスト" do
     visit tasks_path
     # save_and_open_page
@@ -70,7 +69,7 @@ RSpec.feature "タスク管理機能", type: :feature do
     visit tasks_path
     click_on '終了期限ソート'
     # save_and_open_page
-    
+
     task_0 = page.all(".media-body")[0]
     task_1 = page.all(".media-body")[1]
     task_2 = page.all(".media-body")[2]
@@ -102,10 +101,10 @@ RSpec.feature "タスク管理機能", type: :feature do
     fill_in "task_title", with: "3"
     select 'Pending', from: 'task_status'
     click_on 'Search'
-    
+
     expect(page).to have_content 'Factoryで作ったデフォルトのコンテント3'
   end
-  
+
   scenario "Priorityボタンで優先順位を高い方からソートする" do
     visit tasks_path
     click_on "優先順位ソート"
@@ -167,7 +166,7 @@ RSpec.feature "タスク管理機能", type: :feature do
       check "task_label_ids_41"
       click_on '登録'
       # タスク作成成功のフラッシュメッセージが表示されること
-      # save_and_open_page  
+      # save_and_open_page
       task_0 = page.all(".media")[0]
       expect(task_0).to have_selector 'p', text: "Category: 1: Hobby 2: Work"
     }.to change(Task, :count).by(1)
@@ -182,7 +181,7 @@ RSpec.feature "タスク管理機能", type: :feature do
     check "task_label_ids_43"
     check "task_label_ids_44"
     click_on '登録'
-    
+
     click_on '新規タスク作成'
     # save_and_open_page
 

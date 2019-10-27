@@ -3,6 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.3'
 
+gem "aws-sdk-s3", require: false
 gem "chartkick"
 gem 'simple_calendar', '~> 2.0'
 gem 'mini_magick', '~> 4.8'
@@ -23,6 +24,8 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_bot_rails'
   gem 'spring-commands-rspec'
+  gem 'rubocop'
+  gem 'rails-controller-testing'
 end
 
 group :development do
